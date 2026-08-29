@@ -1,3 +1,411 @@
-poetry
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>문학의 형태별 탐색</title>
+    <style>
+      :root {
+        --bg: #f6f1e8;
+        --panel: #fffdf9;
+        --card: #fff;
+        --ink: #1d1b1a;
+        --muted: #5f5753;
+        --primary: #7a4b3a;
+        --primary-soft: #f0ddd7;
+        --gold: #c9a66b;
+        --line: #eadfce;
+      }
 
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: "Segoe UI", "Noto Sans KR", sans-serif;
+        background: linear-gradient(180deg, #f7f1e9 0%, #f2ebdf 100%);
+        color: var(--ink);
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 20px 80px;
+      }
+
+      .hero {
+        background: rgba(255,255,255,0.55);
+        border: 1px solid var(--line);
+        border-radius: 28px;
+        padding: 36px 28px;
+        box-shadow: 0 10px 30px rgba(56,38,32,0.05);
+      }
+
+      .eyebrow {
+        display: inline-block;
+        background: var(--primary-soft);
+        color: var(--primary);
+        border-radius: 999px;
+        padding: 8px 14px;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 18px 0 12px;
+        font-size: clamp(2.2rem, 5vw, 4rem);
+        line-height: 1.1;
+      }
+
+      .subtitle {
+        max-width: 760px;
+        font-size: 1.05rem;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 24px;
+      }
+
+      .chip {
+        border: 1px solid var(--line);
+        background: var(--panel);
+        color: var(--ink);
+        padding: 10px 16px;
+        border-radius: 999px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-weight: 600;
+      }
+
+      .chip.active {
+        background: var(--primary);
+        color: white;
+        border-color: var(--primary);
+      }
+
+      .search {
+        margin: 30px 0;
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      .search input {
+        width: min(100%, 380px);
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: rgba(255,255,255,0.7);
+        padding: 14px 18px;
+        font-size: 1rem;
+        outline: none;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 22px;
+        margin-top: 28px;
+      }
+
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        padding: 22px 20px;
+        box-shadow: 0 8px 18px rgba(48,35,28,0.03);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 16px 28px rgba(48,35,28,0.06);
+      }
+
+      .badge {
+        display: inline-block;
+        font-size: 0.73rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-weight: 700;
+        padding: 7px 10px;
+        border-radius: 999px;
+        background: var(--primary-soft);
+        color: var(--primary);
+      }
+
+      .card h2 {
+        margin: 16px 0 10px;
+        font-size: 1.7rem;
+      }
+
+      .card p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .examples {
+        margin-top: 16px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .example {
+        padding: 7px 10px;
+        border-radius: 999px;
+        background: #f9f5f1;
+        border: 1px solid #f0e4d8;
+        font-size: 0.82rem;
+        color: #4d3d34;
+      }
+
+      .detail {
+        margin-top: 34px;
+        padding: 26px 22px;
+        background: rgba(255,255,255,0.7);
+        border: 1px solid var(--line);
+        border-radius: 24px;
+      }
+
+      .detail-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+
+      .detail-header h3 {
+        margin: 0;
+        font-size: clamp(1.5rem, 2vw, 2.2rem);
+      }
+
+      .feature-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 14px;
+        margin-top: 20px;
+      }
+
+      .feature {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 16px;
+      }
+
+      .feature strong {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--primary);
+      }
+
+      .feature span {
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      @media (max-width: 640px) {
+        .container { padding-top: 24px; }
+        .hero { padding: 24px 18px; }
+        .search { justify-content: stretch; }
+        .search input { width: 100%; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <section class="hero">
+        <span class="eyebrow">Literature Map</span>
+        <h1>문학의 형태별 탐색</h1>
+        <p class="subtitle">
+          시, 소설, 희곡, 수필, 서사시처럼 문학은 표현의 방식에 따라 서로 다른 힘을 지니고 있습니다.
+          각 형태는 어떤 감정과 구조를 드러내는지 살펴보며, 문학의 다양한 얼굴을 이해해봅니다.
+        </p>
+
+        <div class="toolbar" id="filterBar"></div>
+        <div class="search">
+          <input id="searchInput" type="text" placeholder="형태 이름이나 키워드를 검색해보세요" aria-label="문학 형태 검색" />
+        </div>
+      </section>
+
+      <main>
+        <section class="grid" id="cardGrid"></section>
+
+        <section class="detail" id="detailPanel" aria-live="polite"></section>
+      </main>
+    </div>
+
+    <script>
+      const literatureForms = [
+        {
+          category: '시',
+          title: '시',
+          summary: '감정과 이미지가 압축적으로 드러나는 문학의 형태로, 리듬과 언어의 아름다움이 핵심입니다.',
+          examples: ['서정시', '서사시', '자유시'],
+          features: [
+            ['특징', '짧은 언어로 깊은 감정을 표현합니다.'],
+            ['효과', '리듬과 심상을 통해 감정을 직관적으로 전달합니다.'],
+            ['대표성', '상징, 반복, 이미지가 문학적 힘을 만듭니다.']
+          ],
+          highlight: '시의 핵심은 “짧은 말 속에 큰 감정”을 담는 데 있습니다.'
+        },
+        {
+          category: '소설',
+          title: '소설',
+          summary: '인물, 사건, 배경이 결합된 서사 문학으로, 현실을 드러내고 인간의 삶을 입체적으로 보여줍니다.',
+          examples: ['심리소설', '역사소설', '사회소설'],
+          features: [
+            ['특징', '서사의 흐름과 인물의 변화가 중심입니다.'],
+            ['효과', '현실의 복잡성을 장면과 화술로 재현합니다.'],
+            ['대표성', '인간의 선택과 갈등을 긴 시간 속에 보여줍니다.']
+          ],
+          highlight: '소설은 삶의 전체를 한 장면씩 쌓아 올리는 문학입니다.'
+        },
+        {
+          category: '희곡',
+          title: '희곡',
+          summary: '대사와 무대장치를 통해 사건과 갈등을 드러내는 문학으로, 관객과의 즉각적 만남이 중요합니다.',
+          examples: ['비극', '희극', '현대극'],
+          features: [
+            ['특징', '대사 중심으로 인물의 심리를 보여줍니다.'],
+            ['효과', '무대 위에서 생동감 있게 감정을 전합니다.'],
+            ['대표성', '대화 속의 긴장과 갈등이 핵심입니다.']
+          ],
+          highlight: '희곡은 말이 곧 행동이 되고, 관객이 감정을 직접 체험하는 문학입니다.'
+        },
+        {
+          category: '수필',
+          title: '수필',
+          summary: '개인의 경험과 성찰을 통해 삶의 의미를 탐구하는 산문 문학으로, 주관적인 시선이 강합니다.',
+          examples: ['기행문', '에세이', '여행기'],
+          features: [
+            ['특징', '작가의 사유와 관찰이 중심입니다.'],
+            ['효과', '일상 속 사소함에도 깊은 의미를 부여합니다.'],
+            ['대표성', '개인적 경험을 보편적 감정으로 확장합니다.']
+          ],
+          highlight: '수필은 삶의 한 조각을 곱게 다듬어 세상과 나를 함께 바라보게 합니다.'
+        },
+        {
+          category: '서사시',
+          title: '서사시',
+          summary: '영웅적 사건과 공동체의 역사, 운명을 중심으로 펼쳐지는 장대한 서사 문학입니다.',
+          examples: ['서사시', '영웅서사', '민족서사'],
+          features: [
+            ['특징', '대규모 사건과 인물의 운명이 중심입니다.'],
+            ['효과', '역사와 인간의 운명을 동시에 보여줍니다.'],
+            ['대표성', '국가, 공동체, 영웅의 서사를 형성합니다.']
+          ],
+          highlight: '서사시는 개인의 삶을 넘어 공동체와 세계의 의미를 그리는 문학입니다.'
+        },
+        {
+          category: '평론',
+          title: '평론',
+          summary: '문학작품의 가치와 의미를 분석하고 해석하는 비평적 글로, 문학을 이해하는 독해의 틀을 제공합니다.',
+          examples: ['문학비평', '예술평론', '비평서'],
+          features: [
+            ['특징', '작품의 형식, 표현, 의미를 분석합니다.'],
+            ['효과', '문학을 더 깊이 이해할 수 있게 돕습니다.'],
+            ['대표성', '독자와 작품 사이의 간격을 좁히는 역할을 합니다.']
+          ],
+          highlight: '평론은 작품을 읽는 눈을 기르고, 문학의 의미를 새롭게 발견하게 합니다.'
+        }
+      ];
+
+      const filterBar = document.getElementById('filterBar');
+      const cardGrid = document.getElementById('cardGrid');
+      const detailPanel = document.getElementById('detailPanel');
+      const searchInput = document.getElementById('searchInput');
+
+      const allCategories = ['전체', ...new Set(literatureForms.map(item => item.category))];
+      let activeCategory = '전체';
+
+      function renderFilters() {
+        filterBar.innerHTML = allCategories.map(category => `
+          <button class="chip ${category === activeCategory ? 'active' : ''}" data-category="${category}">
+            ${category}
+          </button>
+        `).join('');
+
+        filterBar.querySelectorAll('.chip').forEach(button => {
+          button.addEventListener('click', () => {
+            activeCategory = button.dataset.category;
+            renderFilters();
+            renderCards();
+          });
+        });
+      }
+
+      function getVisibleItems() {
+        const keyword = searchInput.value.trim().toLowerCase();
+
+        return literatureForms.filter(item => {
+          const matchesCategory = activeCategory === '전체' || item.category === activeCategory;
+          const haystack = `${item.title} ${item.summary} ${item.examples.join(' ')}`.toLowerCase();
+          const matchesKeyword = !keyword || haystack.includes(keyword);
+          return matchesCategory && matchesKeyword;
+        });
+      }
+
+      function renderCards() {
+        const items = getVisibleItems();
+
+        if (!items.length) {
+          cardGrid.innerHTML = '<div class="card"><h2>결과 없음</h2><p>검색 조건에 맞는 문학 형태가 없습니다.</p></div>';
+          detailPanel.innerHTML = '';
+          return;
+        }
+
+        cardGrid.innerHTML = items.map(item => `
+          <article class="card" data-category="${item.category}">
+            <span class="badge">${item.category}</span>
+            <h2>${item.title}</h2>
+            <p>${item.summary}</p>
+            <div class="examples">
+              ${item.examples.map(example => `<span class="example">${example}</span>`).join('')}
+            </div>
+          </article>
+        `).join('');
+
+        cardGrid.querySelectorAll('.card').forEach(card => {
+          card.addEventListener('click', () => {
+            const selected = literatureForms.find(item => item.title === card.querySelector('h2').textContent);
+            if (selected) showDetail(selected);
+          });
+        });
+
+        const firstItem = items[0];
+        showDetail(firstItem);
+      }
+
+      function showDetail(item) {
+        detailPanel.innerHTML = `
+          <div class="detail-header">
+            <h3>${item.title}</h3>
+            <span class="badge">${item.category}</span>
+          </div>
+          <p class="subtitle" style="margin-top: 14px;">${item.highlight}</p>
+          <div class="feature-list">
+            ${item.features.map(([label, text]) => `
+              <div class="feature">
+                <strong>${label}</strong>
+                <span>${text}</span>
+              </div>
+            `).join('')}
+          </div>
+        `;
+      }
+
+      searchInput.addEventListener('input', renderCards);
+      renderFilters();
+      renderCards();
+    </script>
+  </body>
+</html>
 
