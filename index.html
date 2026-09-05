@@ -113,17 +113,19 @@
       }
 
       .card {
-        background: var(--card);
-        border: 1px solid var(--line);
+        background: var(--card-bg, var(--card));
+        border: 1px solid rgba(255,255,255,0.18);
         border-radius: 22px;
         padding: 22px 20px;
-        box-shadow: 0 8px 18px rgba(48,35,28,0.03);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        box-shadow: 0 8px 18px rgba(48,35,28,0.08);
+        transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+        color: #fff;
       }
 
       .card:hover {
         transform: translateY(-2px);
-        box-shadow: 0 16px 28px rgba(48,35,28,0.06);
+        box-shadow: 0 16px 28px rgba(48,35,28,0.14);
+        filter: brightness(1.03);
       }
 
       .badge {
@@ -134,19 +136,21 @@
         font-weight: 700;
         padding: 7px 10px;
         border-radius: 999px;
-        background: var(--primary-soft);
-        color: var(--primary);
+        background: rgba(255,255,255,0.18);
+        border: 1px solid rgba(255,255,255,0.2);
+        color: #fff;
       }
 
       .card h2 {
         margin: 16px 0 10px;
         font-size: 1.7rem;
+        color: #fff;
       }
 
       .card p {
         margin: 0;
-        color: var(--muted);
         line-height: 1.7;
+        color: rgba(255,255,255,0.9);
       }
 
       .examples {
@@ -159,10 +163,10 @@
       .example {
         padding: 7px 10px;
         border-radius: 999px;
-        background: #f9f5f1;
-        border: 1px solid #f0e4d8;
+        background: rgba(255,255,255,0.12);
+        border: 1px solid rgba(255,255,255,0.2);
         font-size: 0.82rem;
-        color: #4d3d34;
+        color: #fff;
       }
 
       .detail {
@@ -171,6 +175,7 @@
         background: rgba(255,255,255,0.7);
         border: 1px solid var(--line);
         border-radius: 24px;
+        color: #fff;
       }
 
       .detail-header {
@@ -184,6 +189,11 @@
       .detail-header h3 {
         margin: 0;
         font-size: clamp(1.5rem, 2vw, 2.2rem);
+        color: #fff;
+      }
+
+      .detail .subtitle {
+        color: rgba(255,255,255,0.9);
       }
 
       .feature-list {
@@ -194,8 +204,8 @@
       }
 
       .feature {
-        background: var(--card);
-        border: 1px solid var(--line);
+        background: rgba(255,255,255,0.12);
+        border: 1px solid rgba(255,255,255,0.2);
         border-radius: 18px;
         padding: 16px;
       }
@@ -203,11 +213,11 @@
       .feature strong {
         display: block;
         margin-bottom: 8px;
-        color: var(--primary);
+        color: #fff;
       }
 
       .feature span {
-        color: var(--muted);
+        color: rgba(255,255,255,0.88);
         line-height: 1.6;
       }
 
@@ -243,18 +253,36 @@
     </div>
 
     <script>
+      const rainbowColors = [
+        '#FF5F6D', '#FF8A65', '#FFD166', '#7BD389', '#4FC3F7', '#6C63FF', '#C77DFF'
+      ];
+
       const literatureForms = [
         {
           category: '시',
           title: '시',
           summary: '감정과 이미지가 압축적으로 드러나는 문학의 형태로, 리듬과 언어의 아름다움이 핵심입니다.',
-          examples: ['서정시', '서사시', '자유시'],
+          examples: ['서정시', '자유시', '시조'],
           features: [
             ['특징', '짧은 언어로 깊은 감정을 표현합니다.'],
             ['효과', '리듬과 심상을 통해 감정을 직관적으로 전달합니다.'],
             ['대표성', '상징, 반복, 이미지가 문학적 힘을 만듭니다.']
           ],
-          highlight: '시의 핵심은 “짧은 말 속에 큰 감정”을 담는 데 있습니다.'
+          highlight: '시의 핵심은 “짧은 말 속에 큰 감정”을 담는 데 있습니다.',
+          color: rainbowColors[0]
+        },
+        {
+          category: '시',
+          title: '창작시',
+          summary: '작가의 독창적 감정과 표현 방식이 드러나는 시로, 창작자의 개성과 시각을 중심으로 형성됩니다.',
+          examples: ['자유시', '현대시', '창작시'],
+          features: [
+            ['특징', '개인의 감정과 시적 언어가 자유롭게 드러납니다.'],
+            ['효과', '상징과 이미지로 독자에게 새로운 감각을 선사합니다.'],
+            ['대표성', '개성과 예술성이 가장 강하게 드러나는 시 장르입니다.']
+          ],
+          highlight: '창작시는 작가의 시선으로 세상을 다시 쓰는 문학적 실험입니다.',
+          color: rainbowColors[1]
         },
         {
           category: '소설',
@@ -266,7 +294,8 @@
             ['효과', '현실의 복잡성을 장면과 화술로 재현합니다.'],
             ['대표성', '인간의 선택과 갈등을 긴 시간 속에 보여줍니다.']
           ],
-          highlight: '소설은 삶의 전체를 한 장면씩 쌓아 올리는 문학입니다.'
+          highlight: '소설은 삶의 전체를 한 장면씩 쌓아 올리는 문학입니다.',
+          color: rainbowColors[2]
         },
         {
           category: '희곡',
@@ -278,7 +307,8 @@
             ['효과', '무대 위에서 생동감 있게 감정을 전합니다.'],
             ['대표성', '대화 속의 긴장과 갈등이 핵심입니다.']
           ],
-          highlight: '희곡은 말이 곧 행동이 되고, 관객이 감정을 직접 체험하는 문학입니다.'
+          highlight: '희곡은 말이 곧 행동이 되고, 관객이 감정을 직접 체험하는 문학입니다.',
+          color: rainbowColors[3]
         },
         {
           category: '수필',
@@ -290,19 +320,21 @@
             ['효과', '일상 속 사소함에도 깊은 의미를 부여합니다.'],
             ['대표성', '개인적 경험을 보편적 감정으로 확장합니다.']
           ],
-          highlight: '수필은 삶의 한 조각을 곱게 다듬어 세상과 나를 함께 바라보게 합니다.'
+          highlight: '수필은 삶의 한 조각을 곱게 다듬어 세상과 나를 함께 바라보게 합니다.',
+          color: rainbowColors[4]
         },
         {
           category: '서사시',
           title: '서사시',
           summary: '영웅적 사건과 공동체의 역사, 운명을 중심으로 펼쳐지는 장대한 서사 문학입니다.',
-          examples: ['서사시', '영웅서사', '민족서사'],
+          examples: ['영웅서사', '민족서사', '서사시'],
           features: [
             ['특징', '대규모 사건과 인물의 운명이 중심입니다.'],
             ['효과', '역사와 인간의 운명을 동시에 보여줍니다.'],
             ['대표성', '국가, 공동체, 영웅의 서사를 형성합니다.']
           ],
-          highlight: '서사시는 개인의 삶을 넘어 공동체와 세계의 의미를 그리는 문학입니다.'
+          highlight: '서사시는 개인의 삶을 넘어 공동체와 세계의 의미를 그리는 문학입니다.',
+          color: rainbowColors[5]
         },
         {
           category: '평론',
@@ -314,7 +346,8 @@
             ['효과', '문학을 더 깊이 이해할 수 있게 돕습니다.'],
             ['대표성', '독자와 작품 사이의 간격을 좁히는 역할을 합니다.']
           ],
-          highlight: '평론은 작품을 읽는 눈을 기르고, 문학의 의미를 새롭게 발견하게 합니다.'
+          highlight: '평론은 작품을 읽는 눈을 기르고, 문학의 의미를 새롭게 발견하게 합니다.',
+          color: rainbowColors[6]
         }
       ];
 
@@ -357,13 +390,13 @@
         const items = getVisibleItems();
 
         if (!items.length) {
-          cardGrid.innerHTML = '<div class="card"><h2>결과 없음</h2><p>검색 조건에 맞는 문학 형태가 없습니다.</p></div>';
+          cardGrid.innerHTML = '<div class="card" style="background:#1d1d1d;"><h2>결과 없음</h2><p>검색 조건에 맞는 문학 형태가 없습니다.</p></div>';
           detailPanel.innerHTML = '';
           return;
         }
 
         cardGrid.innerHTML = items.map(item => `
-          <article class="card" data-category="${item.category}">
+          <article class="card" data-category="${item.category}" style="--card-bg:${item.color};">
             <span class="badge">${item.category}</span>
             <h2>${item.title}</h2>
             <p>${item.summary}</p>
@@ -386,18 +419,20 @@
 
       function showDetail(item) {
         detailPanel.innerHTML = `
-          <div class="detail-header">
-            <h3>${item.title}</h3>
-            <span class="badge">${item.category}</span>
-          </div>
-          <p class="subtitle" style="margin-top: 14px;">${item.highlight}</p>
-          <div class="feature-list">
-            ${item.features.map(([label, text]) => `
-              <div class="feature">
-                <strong>${label}</strong>
-                <span>${text}</span>
-              </div>
-            `).join('')}
+          <div class="detail" style="background:${item.color}; border-color: rgba(255,255,255,0.18); box-shadow: 0 16px 32px rgba(0,0,0,0.12);">
+            <div class="detail-header">
+              <h3>${item.title}</h3>
+              <span class="badge">${item.category}</span>
+            </div>
+            <p class="subtitle" style="margin-top: 14px;">${item.highlight}</p>
+            <div class="feature-list">
+              ${item.features.map(([label, text]) => `
+                <div class="feature">
+                  <strong>${label}</strong>
+                  <span>${text}</span>
+                </div>
+              `).join('')}
+            </div>
           </div>
         `;
       }
